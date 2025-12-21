@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "name": "javari-autonomous-system",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "crons": [
+    {
+      "path": "/api/scrape/devdocs",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/scrape/mdn",
+      "schedule": "0 1,7,13,19 * * *"
+    },
+    {
+      "path": "/api/scrape/fcc",
+      "schedule": "0 2,14 * * *"
+    },
+    {
+      "path": "/api/scrape/news",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/health/check",
+      "schedule": "*/15 * * * *"
+    },
+    {
+      "path": "/api/health/self-heal",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/learning/process-queue",
+      "schedule": "*/10 * * * *"
+    },
+    {
+      "path": "/api/reports/daily",
+      "schedule": "0 6 * * *"
+    }
+  ]
+}
