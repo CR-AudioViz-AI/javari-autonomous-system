@@ -1,0 +1,122 @@
+[
+  {
+    "site": "javariverse-hub",
+    "route": "home",
+    "viewport": "desktop",
+    "filepath": "proof/screens/desktop/javariverse-hub_home.png",
+    "headerVisible": true,
+    "footerVisible": true,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  },
+  {
+    "site": "javariverse-hub",
+    "route": "home",
+    "viewport": "mobile",
+    "filepath": "proof/screens/mobile/javariverse-hub_home.png",
+    "headerVisible": true,
+    "footerVisible": true,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  },
+  {
+    "site": "javariverse-hub",
+    "route": "pricing",
+    "viewport": "desktop",
+    "filepath": "proof/screens/desktop/javariverse-hub_pricing.png",
+    "headerVisible": true,
+    "footerVisible": true,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  },
+  {
+    "site": "javariverse-hub",
+    "route": "pricing",
+    "viewport": "mobile",
+    "filepath": "proof/screens/mobile/javariverse-hub_pricing.png",
+    "headerVisible": true,
+    "footerVisible": true,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  },
+  {
+    "site": "javari-ai",
+    "route": "home",
+    "viewport": "desktop",
+    "filepath": "proof/screens/desktop/javari-ai_home.png",
+    "headerVisible": false,
+    "footerVisible": false,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  },
+  {
+    "site": "javari-ai",
+    "route": "home",
+    "viewport": "mobile",
+    "filepath": "proof/screens/mobile/javari-ai_home.png",
+    "headerVisible": false,
+    "footerVisible": false,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  },
+  {
+    "site": "javari-ai",
+    "route": "pricing",
+    "viewport": "desktop",
+    "filepath": "proof/screens/desktop/javari-ai_pricing.png",
+    "headerVisible": true,
+    "footerVisible": true,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  },
+  {
+    "site": "javari-ai",
+    "route": "pricing",
+    "viewport": "mobile",
+    "filepath": "proof/screens/mobile/javari-ai_pricing.png",
+    "headerVisible": true,
+    "footerVisible": true,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  },
+  {
+    "site": "cr-realtor-platform",
+    "route": "home",
+    "viewport": "desktop",
+    "filepath": "proof/screens/desktop/cr-realtor-platform_home.png",
+    "headerVisible": false,
+    "footerVisible": true,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  },
+  {
+    "site": "cr-realtor-platform",
+    "route": "home",
+    "viewport": "mobile",
+    "filepath": "proof/screens/mobile/cr-realtor-platform_home.png",
+    "headerVisible": false,
+    "footerVisible": true,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  },
+  {
+    "site": "cr-realtor-platform",
+    "route": "pricing",
+    "viewport": "desktop",
+    "filepath": "proof/screens/desktop/cr-realtor-platform_pricing.png",
+    "headerVisible": true,
+    "footerVisible": true,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  },
+  {
+    "site": "cr-realtor-platform",
+    "route": "pricing",
+    "viewport": "mobile",
+    "filepath": "proof/screens/mobile/cr-realtor-platform_pricing.png",
+    "headerVisible": true,
+    "footerVisible": true,
+    "logoVisible": false,
+    "status": "SUCCESS"
+  }
+]
