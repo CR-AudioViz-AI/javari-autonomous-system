@@ -150,7 +150,46 @@ export async function logSelfHealing(entry: SelfHealingLogEntry): Promise<void> 
 }
 
 // ============================================================================
-// KNOWLEDGE BASE - upsertKnowledge
+// LEARNING QUEUE
+// ============================================================================
+
+/**
+ * Add an item to the learning queue for AI processing
+ * @param source - The source of the content (e.g., 'devdocs', 'fcc', 'mdn')
+ * @param contentType - Type of content (e.g., 'documentation', 'tutorial', 'news')
+ * @param rawContent - JSON string of the raw content
+ * @param priority - Priority level (1-10, higher = more urgent)
+ */
+export async function addToLearningQueue(
+  source: string,
+  contentType: string,
+  rawContent: string,
+  priority: number = 5
+): Promise<void> {
+  try {
+    const serverClient = createSupabaseServerClient();
+    
+    const { error } = await serverClient
+      .from('javari_learning_queue')
+      .insert({
+        source,
+        content_type: contentType,
+        raw_content: rawContent,
+        priority: Math.max(1, Math.min(10, priority)), // Clamp between 1-10
+        processed: false,
+        created_at: new Date().toISOString()
+      });
+
+    if (error) {
+      console.error('[addToLearningQueue] Failed to add to queue:', error.message);
+    }
+  } catch (err) {
+    console.error('[addToLearningQueue] Exception:', err instanceof Error ? err.message : 'Unknown error');
+  }
+}
+
+// ============================================================================
+// KNOWLEDGE BASE
 // ============================================================================
 
 interface KnowledgeEntry {
@@ -161,14 +200,13 @@ interface KnowledgeEntry {
   short_answer: string;
   source: string;
   source_url?: string;
-  confidence_score?: number;
-  keywords?: string[];
-  is_active?: boolean;
+  confidence_score: number;
+  keywords: string[];
+  is_active: boolean;
 }
 
 /**
- * Upsert a knowledge entry to javari_knowledge_base table
- * Uses (category, topic) as unique constraint for upsert
+ * Upsert a knowledge entry to the knowledge base
  * @param entry - The knowledge entry to upsert
  */
 export async function upsertKnowledge(entry: KnowledgeEntry): Promise<void> {
@@ -185,12 +223,14 @@ export async function upsertKnowledge(entry: KnowledgeEntry): Promise<void> {
         short_answer: entry.short_answer,
         source: entry.source,
         source_url: entry.source_url || null,
-        confidence_score: entry.confidence_score ?? 0.8,
-        keywords: entry.keywords || [],
-        is_active: entry.is_active ?? true,
+        confidence_score: entry.confidence_score,
+        keywords: entry.keywords,
+        is_active: entry.is_active,
+        created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }, {
-        onConflict: 'category,topic'
+        onConflict: 'topic',
+        ignoreDuplicates: false
       });
 
     if (error) {
@@ -198,46 +238,6 @@ export async function upsertKnowledge(entry: KnowledgeEntry): Promise<void> {
     }
   } catch (err) {
     console.error('[upsertKnowledge] Exception:', err instanceof Error ? err.message : 'Unknown error');
-  }
-}
-
-// ============================================================================
-// LEARNING QUEUE - addToLearningQueue
-// ============================================================================
-
-interface LearningQueueEntry {
-  source: string;
-  content_type: string;
-  raw_content: unknown;
-  priority?: number;
-}
-
-/**
- * Add an item to the learning queue for later processing
- * @param entry - The learning queue entry
- */
-export async function addToLearningQueue(entry: LearningQueueEntry): Promise<void> {
-  try {
-    const serverClient = createSupabaseServerClient();
-    
-    const { error } = await serverClient
-      .from('javari_learning_queue')
-      .insert({
-        source: entry.source,
-        content_type: entry.content_type,
-        raw_content: typeof entry.raw_content === 'string' 
-          ? entry.raw_content 
-          : JSON.stringify(entry.raw_content),
-        priority: entry.priority ?? 5,
-        processed: false,
-        created_at: new Date().toISOString()
-      });
-
-    if (error) {
-      console.error('[addToLearningQueue] Failed to add to queue:', error.message);
-    }
-  } catch (err) {
-    console.error('[addToLearningQueue] Exception:', err instanceof Error ? err.message : 'Unknown error');
   }
 }
 
