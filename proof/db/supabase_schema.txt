@@ -1,8 +1,6 @@
-# Supabase Schema Export
-# Generated: "2026-01-09T15:31:23Z"
-# Project: kteobfyferrukqeolofj
-# Total Tables: 520
+Total Tables: 548
 
+=== TABLES ===
 achievements
 activity_logs
 addon_subscriptions
@@ -447,6 +445,34 @@ resolution_patterns
 role_permissions
 roles
 route_inventory
+rpcadd_credits
+rpcadd_user_credits
+rpccalculate_partner_tier
+rpcdecrement_club_members
+rpcdeduct_credits
+rpcdeduct_user_credits
+rpcexecute_sql
+rpcgenerate_affiliate_code
+rpcgenerate_asset_id
+rpcgenerate_order_number
+rpcget_best_provider
+rpcget_collection_stats
+rpcget_overdue_leads
+rpcget_system_prompt
+rpcget_user_available_credits
+rpcget_user_dashboard
+rpcincrement_club_members
+rpcincrement_daily_stat
+rpcincrement_error_pattern
+rpcnormalize_text
+rpcprocess_landing_zone_item
+rpcrefund_user_credits
+rpcreset_lender_daily_counts
+rpcsearch_knowledge
+rpcshow_limit
+rpcshow_trgm
+rpcupdate_user_xp
+rpcupsert_knowledge_gap
 safety_violations
 saved_payment_methods
 saved_properties
