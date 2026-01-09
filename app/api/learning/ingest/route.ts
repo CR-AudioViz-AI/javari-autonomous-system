@@ -55,11 +55,11 @@ export async function POST(request: NextRequest) {
     const contentText = normalizeText(payload.raw_content);
     const contentHash = generateHash(contentText);
     
-    // Check for duplicates
+    // Check for duplicates by checking existing answer content
     const { data: existing } = await supabase
-      .from('javari_learning_queue')
-      .select('id')
-      .eq('raw_content', contentText)
+      .from('javari_knowledge_base')
+      .select('id, topic')
+      .eq('answer', contentText)
       .limit(1);
     
     if (existing && existing.length > 0) {
@@ -67,54 +67,37 @@ export async function POST(request: NextRequest) {
         { 
           error: 'Duplicate content detected',
           existing_id: existing[0].id,
+          existing_topic: existing[0].topic,
           content_hash: contentHash
         },
         { status: 409 }
       );
     }
     
-    // Insert into learning queue (will be processed into knowledge base)
-    const { data: queueEntry, error: queueError } = await supabase
-      .from('javari_learning_queue')
-      .insert({
-        source: payload.source_name,
-        content_type: payload.content_type,
-        raw_content: contentText,
-        priority: 5,
-        processed: false,
-        learning_outcome: {
-          source_type: payload.source_type,
-          source_url: payload.source_url,
-          license_or_tos_url: payload.license_or_tos_url,
-          tags: payload.tags || [],
-          category: payload.category,
-          content_hash: contentHash
-        }
-      })
-      .select()
-      .single();
+    // Generate unique topic to avoid constraint violation
+    const uniqueTopic = `${payload.source_name}_${Date.now()}`;
     
-    if (queueError) {
-      throw new Error(`Queue insert failed: ${queueError.message}`);
-    }
-    
-    // Also insert directly into knowledge base for immediate searchability
+    // Insert directly into knowledge base for V1
     const { data: kbEntry, error: kbError } = await supabase
       .from('javari_knowledge_base')
       .insert({
-        category: payload.category || 'general',
-        topic: payload.source_name,
+        category: payload.category || 'ingested',
+        topic: uniqueTopic,
         question: `Knowledge from ${payload.source_type}: ${payload.source_name}`,
         answer: contentText,
         short_answer: contentText.substring(0, 200),
         source: payload.source_name,
-        source_url: payload.source_url,
+        source_url: payload.source_url || null,
         keywords: payload.tags || [],
         confidence_score: 0.80,
         is_active: true
       })
       .select()
       .single();
+    
+    if (kbError) {
+      throw new Error(`Knowledge base insert failed: ${kbError.message}`);
+    }
     
     // Log activity
     await supabase.from('activity_logs').insert({
@@ -123,9 +106,11 @@ export async function POST(request: NextRequest) {
       metadata: {
         source_type: payload.source_type,
         source_name: payload.source_name,
+        source_url: payload.source_url,
+        license_or_tos_url: payload.license_or_tos_url,
         content_hash: contentHash,
-        queue_id: queueEntry.id,
-        kb_id: kbEntry?.id
+        kb_id: kbEntry.id,
+        tags: payload.tags
       },
       success: true,
       duration_ms: Date.now() - startTime
@@ -134,14 +119,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Knowledge ingested successfully',
-      queue_id: queueEntry.id,
-      knowledge_id: kbEntry?.id,
+      knowledge_id: kbEntry.id,
       content_hash: contentHash,
       citation: {
         source_name: payload.source_name,
         source_url: payload.source_url,
         license_or_tos_url: payload.license_or_tos_url,
-        ingested_at: new Date().toISOString()
+        ingested_at: kbEntry.created_at
       },
       duration_ms: Date.now() - startTime
     });
