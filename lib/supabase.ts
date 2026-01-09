@@ -141,7 +141,7 @@ export async function logSelfHealing(entry: SelfHealingLogEntry): Promise<void> 
 }
 
 // ============================================================================
-// LEARNING QUEUE
+// LEARNING QUEUE OPERATIONS
 // ============================================================================
 
 /**
@@ -150,7 +150,7 @@ export async function logSelfHealing(entry: SelfHealingLogEntry): Promise<void> 
 export async function addToLearningQueue(
   source: string,
   contentType: string,
-  content: string,
+  rawContent: string,
   priority: number = 5
 ): Promise<void> {
   try {
@@ -161,14 +161,14 @@ export async function addToLearningQueue(
       .insert({
         source,
         content_type: contentType,
-        content,
+        raw_content: rawContent,
         priority,
         processed: false,
         created_at: new Date().toISOString()
       });
 
     if (error) {
-      console.error('[addToLearningQueue] Failed to add:', error.message);
+      console.error('[addToLearningQueue] Failed:', error.message);
     }
   } catch (err) {
     console.error('[addToLearningQueue] Exception:', err instanceof Error ? err.message : 'Unknown error');
@@ -176,7 +176,7 @@ export async function addToLearningQueue(
 }
 
 // ============================================================================
-// KNOWLEDGE BASE
+// KNOWLEDGE BASE OPERATIONS
 // ============================================================================
 
 interface KnowledgeEntry {
@@ -184,8 +184,8 @@ interface KnowledgeEntry {
   topic: string;
   question: string;
   answer: string;
-  short_answer?: string;
-  source?: string;
+  short_answer: string;
+  source: string;
   source_url?: string;
   confidence_score?: number;
   keywords?: string[];
@@ -193,7 +193,7 @@ interface KnowledgeEntry {
 }
 
 /**
- * Upsert knowledge into the knowledge base
+ * Upsert a knowledge entry to the knowledge base
  */
 export async function upsertKnowledge(entry: KnowledgeEntry): Promise<void> {
   try {
@@ -206,19 +206,20 @@ export async function upsertKnowledge(entry: KnowledgeEntry): Promise<void> {
         topic: entry.topic,
         question: entry.question,
         answer: entry.answer,
-        short_answer: entry.short_answer || null,
-        source: entry.source || null,
+        short_answer: entry.short_answer,
+        source: entry.source,
         source_url: entry.source_url || null,
-        confidence_score: entry.confidence_score || 0.8,
+        confidence_score: entry.confidence_score ?? 0.8,
         keywords: entry.keywords || [],
-        is_active: entry.is_active !== false,
+        is_active: entry.is_active ?? true,
         updated_at: new Date().toISOString()
       }, {
-        onConflict: 'topic'
+        onConflict: 'topic',
+        ignoreDuplicates: false
       });
 
     if (error) {
-      console.error('[upsertKnowledge] Failed to upsert:', error.message);
+      console.error('[upsertKnowledge] Failed:', error.message);
     }
   } catch (err) {
     console.error('[upsertKnowledge] Exception:', err instanceof Error ? err.message : 'Unknown error');
