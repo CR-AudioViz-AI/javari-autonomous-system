@@ -1,0 +1,192 @@
+name: Gate 2 Visual Proof - Automated Screenshots
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/gate2-visual-proof.yml'
+
+jobs:
+  capture-screenshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright
+        run: |
+          npm init -y
+          npm install playwright @playwright/test
+          npx playwright install chromium --with-deps
+
+      - name: Create screenshot script
+        run: |
+          cat > capture-screenshots.js << 'SCRIPT'
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+          const path = require('path');
+
+          const SITES = [
+            { name: 'javariverse-hub', baseUrl: 'https://craudiovizai.com' },
+            { name: 'javari-ai', baseUrl: 'https://javariai.com' },
+            { name: 'cr-realtor-platform', baseUrl: 'https://realtor.craudiovizai.com' }
+          ];
+
+          const ROUTES = [
+            { path: '/', name: 'home' },
+            { path: '/pricing', name: 'pricing' }
+          ];
+
+          const VIEWPORTS = [
+            { name: 'desktop', width: 1440, height: 900 },
+            { name: 'mobile', width: 390, height: 844 }
+          ];
+
+          async function captureScreenshots() {
+            const browser = await chromium.launch({ headless: true });
+            const results = [];
+
+            // Create directories
+            for (const viewport of VIEWPORTS) {
+              const dir = `proof/screens/${viewport.name}`;
+              fs.mkdirSync(dir, { recursive: true });
+            }
+
+            for (const site of SITES) {
+              for (const route of ROUTES) {
+                for (const viewport of VIEWPORTS) {
+                  const context = await browser.newContext({
+                    viewport: { width: viewport.width, height: viewport.height },
+                    deviceScaleFactor: viewport.name === 'mobile' ? 2 : 1,
+                    isMobile: viewport.name === 'mobile'
+                  });
+                  
+                  const page = await context.newPage();
+                  const url = `${site.baseUrl}${route.path}`;
+                  const filename = `${site.name}_${route.name}.png`;
+                  const filepath = `proof/screens/${viewport.name}/${filename}`;
+
+                  console.log(`Capturing: ${url} (${viewport.name})`);
+                  
+                  try {
+                    await page.goto(url, { 
+                      waitUntil: 'networkidle',
+                      timeout: 30000 
+                    });
+                    
+                    // Wait for any animations to settle
+                    await page.waitForTimeout(2000);
+                    
+                    // Take full page screenshot
+                    await page.screenshot({ 
+                      path: filepath, 
+                      fullPage: true 
+                    });
+
+                    // Check for UI elements
+                    const headerVisible = await page.locator('header, nav, [class*="header"], [class*="nav"]').first().isVisible().catch(() => false);
+                    const footerVisible = await page.locator('footer, [class*="footer"]').first().isVisible().catch(() => false);
+                    const logoVisible = await page.locator('img[alt*="logo"], [class*="logo"], svg[class*="logo"]').first().isVisible().catch(() => false);
+
+                    results.push({
+                      site: site.name,
+                      route: route.name,
+                      viewport: viewport.name,
+                      filepath,
+                      headerVisible,
+                      footerVisible,
+                      logoVisible,
+                      status: 'SUCCESS'
+                    });
+
+                    console.log(`  ✅ Saved: ${filepath}`);
+                    console.log(`     Header: ${headerVisible ? '✅' : '❌'}, Footer: ${footerVisible ? '✅' : '❌'}, Logo: ${logoVisible ? '✅' : '❌'}`);
+
+                  } catch (error) {
+                    console.error(`  ❌ Failed: ${url} - ${error.message}`);
+                    results.push({
+                      site: site.name,
+                      route: route.name,
+                      viewport: viewport.name,
+                      filepath,
+                      status: 'FAILED',
+                      error: error.message
+                    });
+                  }
+
+                  await context.close();
+                }
+              }
+            }
+
+            await browser.close();
+
+            // Write results to JSON
+            fs.writeFileSync('proof/screens/ui-contract-results.json', JSON.stringify(results, null, 2));
+            
+            // Generate markdown report
+            let report = `# Gate 2 Visual Proof - UI Contract Results\n\n`;
+            report += `Generated: ${new Date().toISOString()}\n\n`;
+            report += `## Summary\n\n`;
+            report += `| Site | Route | Viewport | Header | Footer | Logo | Status |\n`;
+            report += `|------|-------|----------|--------|--------|------|--------|\n`;
+            
+            for (const r of results) {
+              const headerIcon = r.headerVisible ? '✅' : '❌';
+              const footerIcon = r.footerVisible ? '✅' : '❌';
+              const logoIcon = r.logoVisible ? '✅' : '❌';
+              const statusIcon = r.status === 'SUCCESS' ? '✅' : '❌';
+              report += `| ${r.site} | ${r.route} | ${r.viewport} | ${headerIcon} | ${footerIcon} | ${logoIcon} | ${statusIcon} |\n`;
+            }
+
+            report += `\n## Screenshot Files\n\n`;
+            for (const r of results.filter(x => x.status === 'SUCCESS')) {
+              report += `- \`${r.filepath}\`\n`;
+            }
+
+            fs.writeFileSync('proof/screens/UI_CONTRACT_REPORT.md', report);
+            console.log('\n📄 Report saved to proof/screens/UI_CONTRACT_REPORT.md');
+
+            // Exit with error if any failed
+            const failures = results.filter(r => r.status === 'FAILED');
+            if (failures.length > 0) {
+              console.error(`\n❌ ${failures.length} screenshots failed`);
+              process.exit(1);
+            }
+            
+            console.log(`\n✅ All ${results.length} screenshots captured successfully`);
+          }
+
+          captureScreenshots().catch(err => {
+            console.error('Fatal error:', err);
+            process.exit(1);
+          });
+          SCRIPT
+
+      - name: Capture screenshots
+        run: node capture-screenshots.js
+
+      - name: Upload screenshots as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate2-visual-proof-screenshots
+          path: proof/screens/
+          retention-days: 90
+
+      - name: Commit screenshots to repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add proof/screens/
+          git diff --staged --quiet || git commit -m "chore: Gate 2 Visual Proof - Automated Screenshots [$(date -u +%Y-%m-%dT%H:%M:%SZ)]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
