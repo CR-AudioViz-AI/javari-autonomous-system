@@ -56,17 +56,11 @@ export function createSupabaseServerClient(): SupabaseClient {
 }
 
 // ============================================================================
-// ACTIVITY LOGGING - Added for javari-autonomous-system
+// ACTIVITY LOGGING
 // ============================================================================
 
 /**
  * Log an activity to the activity_logs table
- * @param actionType - The type of action (e.g., 'health_check', 'self_heal')
- * @param component - The component that performed the action
- * @param metadata - Additional metadata about the action
- * @param success - Whether the action was successful
- * @param errorMessage - Error message if the action failed
- * @param durationMs - Duration of the action in milliseconds
  */
 export async function logActivity(
   actionType: string,
@@ -95,13 +89,12 @@ export async function logActivity(
       console.error('[logActivity] Failed to log activity:', error.message);
     }
   } catch (err) {
-    // Don't throw - logging should never break the main flow
     console.error('[logActivity] Exception:', err instanceof Error ? err.message : 'Unknown error');
   }
 }
 
 // ============================================================================
-// SELF-HEALING LOGGING - Added for javari-autonomous-system
+// SELF-HEALING LOGGING
 // ============================================================================
 
 interface SelfHealingLogEntry {
@@ -118,7 +111,6 @@ interface SelfHealingLogEntry {
 
 /**
  * Log a self-healing event to the javari_self_healing_log table
- * @param entry - The self-healing log entry
  */
 export async function logSelfHealing(entry: SelfHealingLogEntry): Promise<void> {
   try {
@@ -141,11 +133,95 @@ export async function logSelfHealing(entry: SelfHealingLogEntry): Promise<void> 
       });
 
     if (error) {
-      console.error('[logSelfHealing] Failed to log self-healing event:', error.message);
+      console.error('[logSelfHealing] Failed to log:', error.message);
     }
   } catch (err) {
-    // Don't throw - logging should never break the main flow
     console.error('[logSelfHealing] Exception:', err instanceof Error ? err.message : 'Unknown error');
+  }
+}
+
+// ============================================================================
+// LEARNING QUEUE
+// ============================================================================
+
+/**
+ * Add an item to the learning queue for processing
+ */
+export async function addToLearningQueue(
+  source: string,
+  contentType: string,
+  rawContent: string,
+  priority: number = 5
+): Promise<void> {
+  try {
+    const serverClient = createSupabaseServerClient();
+    
+    const { error } = await serverClient
+      .from('javari_learning_queue')
+      .insert({
+        source,
+        content_type: contentType,
+        raw_content: rawContent,
+        priority,
+        processed: false,
+        created_at: new Date().toISOString()
+      });
+
+    if (error) {
+      console.error('[addToLearningQueue] Failed to add:', error.message);
+    }
+  } catch (err) {
+    console.error('[addToLearningQueue] Exception:', err instanceof Error ? err.message : 'Unknown error');
+  }
+}
+
+// ============================================================================
+// KNOWLEDGE BASE
+// ============================================================================
+
+interface KnowledgeEntry {
+  category: string;
+  topic: string;
+  question: string;
+  answer: string;
+  short_answer?: string;
+  source?: string;
+  source_url?: string;
+  confidence_score?: number;
+  keywords?: string[];
+  is_active?: boolean;
+}
+
+/**
+ * Upsert knowledge into the javari_knowledge_base table
+ */
+export async function upsertKnowledge(entry: KnowledgeEntry): Promise<void> {
+  try {
+    const serverClient = createSupabaseServerClient();
+    
+    const { error } = await serverClient
+      .from('javari_knowledge_base')
+      .upsert({
+        category: entry.category,
+        topic: entry.topic,
+        question: entry.question,
+        answer: entry.answer,
+        short_answer: entry.short_answer || null,
+        source: entry.source || null,
+        source_url: entry.source_url || null,
+        confidence_score: entry.confidence_score || 0.8,
+        keywords: entry.keywords || [],
+        is_active: entry.is_active !== false,
+        updated_at: new Date().toISOString()
+      }, {
+        onConflict: 'topic'
+      });
+
+    if (error) {
+      console.error('[upsertKnowledge] Failed to upsert:', error.message);
+    }
+  } catch (err) {
+    console.error('[upsertKnowledge] Exception:', err instanceof Error ? err.message : 'Unknown error');
   }
 }
 
