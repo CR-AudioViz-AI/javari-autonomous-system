@@ -1,0 +1,41 @@
+=============================================================================
+CR AudioViz AI - Learning Search Endpoint Proof
+Generated: 2026-01-09T15:15:51Z
+=============================================================================
+
+ENDPOINT: /api/learning/search
+STATUS: ✅ VERIFIED WORKING
+
+USAGE:
+  Required params: q (search query)
+  Optional params: k (number of results, default 5)
+
+=== Without params (400 - Expected) ===
+COMMAND:
+curl -s -H "Authorization: Bearer javari-autonomous-cron-2026" \
+  "https://autonomous.craudiovizai.com/api/learning/search"
+
+RESPONSE:
+{"error":"Missing required parameter: q (search query)"}
+
+HTTP STATUS: 400 (Correct behavior - validation working)
+
+=== With params (200 - Success) ===
+COMMAND:
+curl -s -H "Authorization: Bearer javari-autonomous-cron-2026" \
+  "https://autonomous.craudiovizai.com/api/learning/search?q=javari&k=3"
+
+RESPONSE:
+{"success":true,"query":"javari","total_results":1,"results":[{"id":"e0ce5ac5-eb33-4800-9fc7-739b479fe2e6","snippet":"Javari AI is an autonomous learning system created by CR AudioViz AI LLC. It features persistent memory with legal attribution, searchable knowledge with citations, and a decision journal for auditability. The system ingests knowledge from chat, repo, doc, api, web, and manual sources.","source_name":"Brain V1 Proof Test","source_url":"https://github.com/CR-AudioViz-AI/javari-autonomous-system","license_or_tos_url":null,"created_at":"2026-01-09T14:39:13.248944+00:00","confidence":0.8}],"duration_ms":121}
+HTTP STATUS: 200 OK
+
+=== Empty Results Test ===
+COMMAND:
+curl -s -H "Authorization: Bearer javari-autonomous-cron-2026" \
+  "https://autonomous.craudiovizai.com/api/learning/search?q=nonexistent12345"
+
+RESPONSE:
+{"success":true,"query":"nonexistent12345","total_results":0,"results":[],"duration_ms":124}
+HTTP STATUS: 200 OK (Empty results is valid)
+
+=============================================================================
