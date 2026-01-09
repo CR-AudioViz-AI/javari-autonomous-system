@@ -1,0 +1,28 @@
+=============================================================================
+CR AudioViz AI - Process Queue Endpoint Proof
+Generated: 2026-01-09T15:14:37Z
+=============================================================================
+
+ENDPOINT: /api/learning/process-queue
+STATUS: ✅ VERIFIED WORKING
+
+COMMAND:
+curl -s -H "Authorization: Bearer javari-autonomous-cron-2026" \
+  "https://autonomous.craudiovizai.com/api/learning/process-queue"
+
+RESPONSE:
+{"success":true,"message":"Queue is empty","processed":0,"timestamp":"2026-01-09T15:14:37.621Z"}
+
+HTTP STATUS: 200 OK
+
+FIX APPLIED:
+Added missing columns to javari_learning_queue table via Supabase execute_sql RPC:
+  - processed BOOLEAN DEFAULT false
+  - processed_at TIMESTAMPTZ
+  - learning_outcome JSONB
+  - priority INTEGER DEFAULT 5
+  - source TEXT
+  - content_type TEXT
+  - raw_content TEXT
+
+=============================================================================
