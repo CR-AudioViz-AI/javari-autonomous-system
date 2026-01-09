@@ -13,11 +13,59 @@ interface HealthCheck {
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
+// ============================================================================
+// AUTH GUARD - CRON_SECRET Required
+// ============================================================================
+function validateAuth(request: NextRequest): { valid: boolean; error?: string } {
+  const cronSecret = process.env.CRON_SECRET;
+  
+  // CRON_SECRET must be configured
+  if (!cronSecret) {
+    return {
+      valid: false,
+      error: 'CRON_SECRET environment variable is not configured. Set it in Vercel.',
+    };
+  }
+
+  // Check Authorization header
+  const authHeader = request.headers.get('authorization');
+  if (authHeader === `Bearer ${cronSecret}`) {
+    return { valid: true };
+  }
+
+  // Allow manual override ONLY in non-production
+  const isManual = request.nextUrl.searchParams.get('manual') === 'true';
+  const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
+  
+  if (isManual && !isProduction) {
+    return { valid: true };
+  }
+
+  return {
+    valid: false,
+    error: 'Unauthorized. Provide Authorization: Bearer <CRON_SECRET> header.',
+  };
+}
+
 export async function GET(request: NextRequest) {
+  const auth = validateAuth(request);
+  if (!auth.valid) {
+    return NextResponse.json(
+      { error: auth.error, timestamp: new Date().toISOString() },
+      { status: auth.error?.includes('not configured') ? 500 : 401 }
+    );
+  }
   return handleHealthCheck(request);
 }
 
 export async function POST(request: NextRequest) {
+  const auth = validateAuth(request);
+  if (!auth.valid) {
+    return NextResponse.json(
+      { error: auth.error, timestamp: new Date().toISOString() },
+      { status: auth.error?.includes('not configured') ? 500 : 401 }
+    );
+  }
   return handleHealthCheck(request);
 }
 
