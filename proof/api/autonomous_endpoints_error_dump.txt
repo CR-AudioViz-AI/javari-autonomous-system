@@ -1,0 +1,54 @@
+=============================================================================
+CR AudioViz AI - Autonomous Endpoints Error Dump
+Generated: 2026-01-09T15:12:18Z
+=============================================================================
+
+ISSUE 1: /api/learning/process-queue (500)
+---------------------------------------------------------------------------
+Root Cause: Missing columns in javari_learning_queue table
+  - column 'processed' does not exist
+  - column 'priority' does not exist
+  - column 'source' does not exist
+  - column 'content_type' does not exist
+  - column 'raw_content' does not exist
+  - column 'processed_at' does not exist
+  - column 'learning_outcome' does not exist
+
+Original Error Response:
+{
+  "success": false,
+  "error": "Failed to fetch queue: column javari_learning_queue.processed does not exist",
+  "processed": 0,
+  "errors": 0,
+  "timestamp": "2026-01-09T15:12:19.292Z"
+}
+
+ISSUE 2: /api/decisions/log (500)
+---------------------------------------------------------------------------
+Root Cause: Missing columns in activity_logs table
+  - column 'action_type' does not exist
+  - column 'component' does not exist
+  - column 'metadata' does not exist
+  - column 'success' does not exist
+  - column 'error_message' does not exist
+  - column 'duration_ms' does not exist
+
+Original Error Response:
+{
+  "error": "Failed to fetch decisions",
+  "details": "Fetch decisions failed: column activity_logs.action_type does not exist"
+}
+
+ISSUE 3: /api/learning/search (400) - Expected Behavior
+---------------------------------------------------------------------------
+Root Cause: Missing required query parameter 'q'
+This is CORRECT behavior - not an error
+
+Original Response:
+{
+  "error": "Missing required parameter: q (search query)"
+}
+
+=============================================================================
+RESOLUTION: Applied schema migrations via Supabase execute_sql RPC
+=============================================================================
