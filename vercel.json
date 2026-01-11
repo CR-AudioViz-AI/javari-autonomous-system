@@ -6,31 +6,31 @@
   "crons": [
     {
       "path": "/api/scrape/devdocs",
-      "schedule": "0 */6 * * *"
+      "schedule": "0 2 * * *"
     },
     {
       "path": "/api/scrape/mdn",
-      "schedule": "0 1,7,13,19 * * *"
+      "schedule": "0 3 * * *"
     },
     {
       "path": "/api/scrape/fcc",
-      "schedule": "0 2,14 * * *"
+      "schedule": "0 4 * * *"
     },
     {
       "path": "/api/scrape/news",
-      "schedule": "0 * * * *"
+      "schedule": "0 6 * * *"
     },
     {
       "path": "/api/health/check",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 */6 * * *"
     },
     {
       "path": "/api/health/self-heal",
-      "schedule": "*/30 * * * *"
+      "schedule": "0 0,12 * * *"
     },
     {
       "path": "/api/learning/process-queue",
-      "schedule": "*/10 * * * *"
+      "schedule": "0 */6 * * *"
     },
     {
       "path": "/api/reports/daily",
