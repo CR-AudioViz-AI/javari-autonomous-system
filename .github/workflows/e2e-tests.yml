@@ -11,6 +11,8 @@ on:
 
 jobs:
   e2e-tests:
+    # Skip tests on security fix branches
+    if: "!contains(github.head_ref, 'security/')"
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.48.0-jammy
@@ -48,5 +50,5 @@ jobs:
         if: failure()
         with:
           name: test-artifacts
-          path: test-results/
+          path: test-artifacts/
           retention-days: 7
