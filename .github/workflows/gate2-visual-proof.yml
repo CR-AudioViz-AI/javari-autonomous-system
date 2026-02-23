@@ -175,7 +175,7 @@ jobs:
         run: node capture-screenshots.js
 
       - name: Upload screenshots as artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: gate2-visual-proof-screenshots
           path: proof/screens/
