@@ -3,32 +3,57 @@ node_modules/
 .pnp
 .pnp.js
 
-# Build
+# Testing
+coverage/
+.nyc_output
+
+# Next.js
 .next/
 out/
 build/
+dist/
 
-# Environment
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Debug
+# Production
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
+# Environment files - NEVER COMMIT THESE
+.env
+.env*.local
+.env.development
+.env.production
+.env.test
+!.env.example
 
-# OS
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# OS Files
 .DS_Store
 Thumbs.db
 
-# Vercel
-.vercel/
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Credentials & Secrets
+credentials.json
+serviceAccountKey.json
+*.pem
+*.key
+*.cert
+
+# Temporary files
+tmp/
+temp/
+*.tmp
