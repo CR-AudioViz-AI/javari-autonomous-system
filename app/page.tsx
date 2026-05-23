@@ -1,118 +1,32 @@
-export default function Home() {
-  return (
-    <main style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '8px' }}>
-        🧠 Javari AI Autonomous System
-      </h1>
-      <p style={{ color: '#94a3b8', marginBottom: '40px' }}>
-        Self-learning, self-healing AI infrastructure for CR AudioViz AI
-      </p>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
-        {/* Scrapers Section */}
-        <section style={{ background: '#1e293b', borderRadius: '12px', padding: '24px' }}>
-          <h2 style={{ fontSize: '1.25rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            📚 Knowledge Scrapers
-          </h2>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <li><a href="/api/scrape/devdocs?manual=true" style={{ color: '#60a5fa' }}>DevDocs Scraper</a> - React, TypeScript, Node.js docs</li>
-            <li><a href="/api/scrape/mdn?manual=true" style={{ color: '#60a5fa' }}>MDN Scraper</a> - Web standards documentation</li>
-            <li><a href="/api/scrape/fcc?manual=true" style={{ color: '#60a5fa' }}>FreeCodeCamp Scraper</a> - Tutorial content</li>
-            <li><a href="/api/scrape/news?manual=true" style={{ color: '#60a5fa' }}>News Aggregator</a> - Tech news &amp; trends</li>
-          </ul>
-        </section>
-
-        {/* Health Section */}
-        <section style={{ background: '#1e293b', borderRadius: '12px', padding: '24px' }}>
-          <h2 style={{ fontSize: '1.25rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            🔧 Health &amp; Self-Healing
-          </h2>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <li><a href="/api/health/check" style={{ color: '#60a5fa' }}>Health Check</a> - System status overview</li>
-            <li><a href="/api/health/self-heal" style={{ color: '#60a5fa' }}>Self-Heal</a> - Automatic issue resolution</li>
-          </ul>
-        </section>
-
-        {/* Learning Section */}
-        <section style={{ background: '#1e293b', borderRadius: '12px', padding: '24px' }}>
-          <h2 style={{ fontSize: '1.25rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            🧠 Learning Pipeline
-          </h2>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <li><a href="/api/learning/process-queue" style={{ color: '#60a5fa' }}>Process Queue</a> - Convert scraped data to knowledge</li>
-          </ul>
-        </section>
-
-        {/* Reports Section */}
-        <section style={{ background: '#1e293b', borderRadius: '12px', padding: '24px' }}>
-          <h2 style={{ fontSize: '1.25rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            📊 Reports
-          </h2>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <li><a href="/api/reports/daily" style={{ color: '#60a5fa' }}>Daily Report</a> - 24-hour summary</li>
-          </ul>
-        </section>
+"use client";
+// app/page.tsx — Javari Autonomous System · CR AudioViz AI · EIN 39-3646201 · May 2026
+import { useState } from "react";
+const T=[{"i": "\ud83e\udd16", "l": "Automation", "d": "Platform automation tools", "h": "/automate"}, {"i": "\ud83d\udd27", "l": "Self-Healing", "d": "System recovery protocols", "h": "/healing"}, {"i": "\ud83d\udcca", "l": "Monitoring", "d": "Real-time system monitoring", "h": "/monitor"}, {"i": "\ud83d\udd04", "l": "Workflows", "d": "Automated workflow builder", "h": "/workflows"}];
+export default function P() {
+  const [i,setI]=useState(""); const [o,setO]=useState(""); const [l,setL]=useState(false);
+  async function go() { if(!i.trim())return; setL(true);setO("");
+    try { const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:[{role:"user",content:i}],stream:false,systemOverride:"You are a platform automation expert. EIN: 39-3646201."})});
+      const d=await r.json(); setO(d?.choices?.[0]?.message?.content||d?.content||"Error.");
+    } catch {setO("Error.");} setL(false); }
+  return (<div style={{minHeight:"100vh",background:"#040912",color:"#e2e8f0",fontFamily:"system-ui"}}>
+    <nav style={{background:"#1E3A5F",padding:"0 20px",height:52,display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,zIndex:100}}>
+      <div style={{display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:20}}>🤖</span><span style={{fontWeight:800,color:"#1E3A5F",fontSize:15}}>Javari Autonomous System</span></div>
+      <a href="https://craudiovizai.com/auth/signup" style={{background:"#FF0800",color:"#fff",borderRadius:7,padding:"5px 14px",fontSize:12,fontWeight:700,textDecoration:"none"}}>Sign Up Free</a>
+    </nav>
+    <section style={{background:"linear-gradient(135deg,#1E3A5F,#040912)",padding:"48px 24px 40px",textAlign:"center"}}>
+      <h1 style={{fontSize:"clamp(22px,4vw,42px)",fontWeight:900,color:"#fff",margin:"0 0 10px",lineHeight:1.05}}>Javari<br/><span style={{color:"#1E3A5F"}}>Autonomous System</span></h1>
+      <p style={{color:"rgba(255,255,255,0.7)",fontSize:15,margin:0}}>Platform automation, self-healing systems, and autonomous operations.</p>
+    </section>
+    <section style={{maxWidth:700,margin:"0 auto",padding:"24px 20px 0"}}>
+      <div style={{background:"#0F1F32",border:"1px solid rgba(0,180,216,0.12)",borderRadius:14,padding:"18px 22px"}}>
+        <div style={{display:"flex",gap:8}}><input value={i} onChange={e=>setI(e.target.value)} onKeyDown={e=>e.key==="Enter"&&go()} placeholder="Help me automate a platform workflow" style={{flex:1,background:"#172D48",border:"1px solid rgba(0,180,216,0.15)",borderRadius:8,padding:"10px 12px",color:"#e2e8f0",fontSize:13,outline:"none",fontFamily:"system-ui"}}/>
+        <button onClick={go} disabled={l||!i.trim()} style={{background:l||!i.trim()?"#0F1F32":"#1E3A5F",color:l||!i.trim()?"#374151":"#1E3A5F",border:"1px solid rgba(0,180,216,0.2)",borderRadius:8,padding:"10px 18px",fontSize:13,fontWeight:700,cursor:l||!i.trim()?"not-allowed":"pointer",fontFamily:"system-ui"}}>{l?"...":"Go"}</button></div>
+        {o&&<pre style={{marginTop:12,padding:"12px",background:"rgba(0,180,216,0.05)",border:"1px solid rgba(0,180,216,0.1)",borderRadius:8,fontSize:13,color:"#e2e8f0",lineHeight:1.65,whiteSpace:"pre-wrap",fontFamily:"system-ui",maxHeight:300,overflowY:"auto",margin:"12px 0 0"}}>{o}</pre>}
       </div>
-
-      <section style={{ marginTop: '40px', background: '#1e293b', borderRadius: '12px', padding: '24px' }}>
-        <h2 style={{ fontSize: '1.25rem', marginBottom: '16px' }}>⏰ Cron Schedule</h2>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ borderBottom: '1px solid #334155' }}>
-              <th style={{ textAlign: 'left', padding: '8px' }}>Endpoint</th>
-              <th style={{ textAlign: 'left', padding: '8px' }}>Schedule</th>
-              <th style={{ textAlign: 'left', padding: '8px' }}>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style={{ borderBottom: '1px solid #334155' }}>
-              <td style={{ padding: '8px' }}>/api/scrape/devdocs</td>
-              <td style={{ padding: '8px', color: '#94a3b8' }}>Every 6 hours</td>
-              <td style={{ padding: '8px' }}>Scrape DevDocs documentation</td>
-            </tr>
-            <tr style={{ borderBottom: '1px solid #334155' }}>
-              <td style={{ padding: '8px' }}>/api/scrape/mdn</td>
-              <td style={{ padding: '8px', color: '#94a3b8' }}>4x daily</td>
-              <td style={{ padding: '8px' }}>Scrape MDN Web Docs</td>
-            </tr>
-            <tr style={{ borderBottom: '1px solid #334155' }}>
-              <td style={{ padding: '8px' }}>/api/scrape/fcc</td>
-              <td style={{ padding: '8px', color: '#94a3b8' }}>2x daily</td>
-              <td style={{ padding: '8px' }}>Scrape FreeCodeCamp curriculum</td>
-            </tr>
-            <tr style={{ borderBottom: '1px solid #334155' }}>
-              <td style={{ padding: '8px' }}>/api/scrape/news</td>
-              <td style={{ padding: '8px', color: '#94a3b8' }}>Hourly</td>
-              <td style={{ padding: '8px' }}>Aggregate tech news</td>
-            </tr>
-            <tr style={{ borderBottom: '1px solid #334155' }}>
-              <td style={{ padding: '8px' }}>/api/health/check</td>
-              <td style={{ padding: '8px', color: '#94a3b8' }}>Every 15 min</td>
-              <td style={{ padding: '8px' }}>System health monitoring</td>
-            </tr>
-            <tr style={{ borderBottom: '1px solid #334155' }}>
-              <td style={{ padding: '8px' }}>/api/health/self-heal</td>
-              <td style={{ padding: '8px', color: '#94a3b8' }}>Every 30 min</td>
-              <td style={{ padding: '8px' }}>Automatic issue resolution</td>
-            </tr>
-            <tr style={{ borderBottom: '1px solid #334155' }}>
-              <td style={{ padding: '8px' }}>/api/learning/process-queue</td>
-              <td style={{ padding: '8px', color: '#94a3b8' }}>Every 10 min</td>
-              <td style={{ padding: '8px' }}>Process learning queue</td>
-            </tr>
-            <tr>
-              <td style={{ padding: '8px' }}>/api/reports/daily</td>
-              <td style={{ padding: '8px', color: '#94a3b8' }}>6 AM daily</td>
-              <td style={{ padding: '8px' }}>Generate daily report</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <footer style={{ marginTop: '40px', textAlign: 'center', color: '#64748b' }}>
-        <p>CR AudioViz AI, LLC • Javari AI Autonomous System v1.0</p>
-        <p style={{ marginTop: '8px' }}>🤖 Learning. Healing. Evolving.</p>
-      </footer>
-    </main>
-  );
+    </section>
+    <section style={{maxWidth:960,margin:"0 auto",padding:"28px 20px 64px"}}><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(190px,1fr))",gap:10}}>
+      {T.map((t:any)=>(<a key={t.h} href={t.h} style={{background:"#0F1F32",border:"1px solid rgba(0,180,216,0.08)",borderRadius:12,padding:"16px",textDecoration:"none",display:"block"}}><span style={{fontSize:24,display:"block",marginBottom:7}}>{t.i}</span><div style={{fontWeight:700,fontSize:13,color:"#e2e8f0",marginBottom:3}}>{t.l}</div><div style={{fontSize:11,color:"#6B7280",lineHeight:1.4}}>{t.d}</div></a>))}
+    </div></section>
+    <footer style={{borderTop:"1px solid rgba(0,180,216,0.08)",padding:"12px 24px",textAlign:"center"}}><p style={{color:"#374151",fontSize:11,margin:0}}>© 2026 CR AudioViz AI, LLC — EIN: 39-3646201</p></footer>
+  </div>);
 }
