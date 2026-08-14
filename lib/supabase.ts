@@ -66,7 +66,7 @@ export function createSupabaseServerClient(): SupabaseClient {
     console.warn('SUPABASE_SERVICE_ROLE_KEY not set, using anon key');
     return createClient(URL_, ANON_);
   }
-  return createClient(SUPABASE_URL, serviceKey);
+  return createClient(URL_, serviceKey);
 }
 
 // ============================================================================
