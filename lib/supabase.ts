@@ -20,6 +20,15 @@ export { isAdmin, shouldChargeCredits, ADMIN_EMAILS, CentralServices } from './c
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+// 2026-08-14: the URL and key used to have hardcoded fallbacks, so a deploy
+// with no environment configured connected to LIVE production data instead of
+// failing. They are required now — and this guard is what tells TypeScript so.
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  throw new Error(
+    'NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY must be set',
+  );
+}
+
 // Standard client for general use
 export const supabase: SupabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
