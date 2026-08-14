@@ -48,18 +48,18 @@ Auditor: Claude (Automated)
 ### ❌ FAIL (Build/Deploy Errors)
 | Project | Domain | Home | Pricing | Issue |
 |---------|--------|------|---------|-------|
-| crav-property-hub | crav-property-hub.vercel.app | 503 | 404 | Build failure |
+| javari-property-hub | javari-property-hub.vercel.app | 503 | 404 | Build failure |
 | javari-coin-cache | javari-coin-cache.vercel.app | 503 | 503 | Build failure |
 | javari-vinyl-vault | javari-vinyl-vault.vercel.app | 503 | 404 | Build failure |
-| crav-travel | crav-travel.vercel.app | 503 | 404 | Build failure |
+| javari-travel | javari-travel.vercel.app | 503 | 404 | Build failure |
 
 ---
 
 ## Top 5 Blockers
 
 1. **17 apps missing /pricing route** - Need pricing page template deployed
-2. **4 apps with 503 build errors** - crav-property-hub, javari-coin-cache, javari-vinyl-vault, crav-travel
-3. **Legacy "crav-" branding** - 6 projects need rebrand to "javari-"
+2. **4 apps with 503 build errors** - javari-property-hub, javari-coin-cache, javari-vinyl-vault, javari-travel
+3. **Legacy "javari-" branding** - 6 projects need rebrand to "javari-"
 4. **No custom domains** - Most apps using .vercel.app instead of craudiovizai.com subdomains
 5. **520+ Supabase tables** - Potential duplicates/cleanup needed
 
@@ -92,7 +92,7 @@ Auditor: Claude (Automated)
 ### Short-term (Next 7 Days)
 1. Deploy pricing to all 17 missing apps
 2. Set up custom domains for priority apps
-3. Rebrand "crav-" projects to "javari-"
+3. Rebrand "javari-" projects to "javari-"
 
 ### Medium-term (Next 30 Days)
 1. Supabase table cleanup audit

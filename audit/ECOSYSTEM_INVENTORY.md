@@ -26,7 +26,7 @@ Auditor: Claude (Automated)
 | 5 | javari-comic-crypt | Collector | PENDING |
 | 6 | javari-vinyl-vault | Collector | PENDING |
 | 7 | javari-watch-works | Collector | PENDING |
-| 8 | crav-travel | Travel | PENDING |
+| 8 | javari-travel | Travel | PENDING |
 | 9 | javari-orlando | Travel | PENDING |
 | 10 | javari-business-formation | Business | PENDING |
 | 11 | javari-invoice | Business | PENDING |
@@ -41,8 +41,8 @@ Auditor: Claude (Automated)
 | javari-ai | Main AI Assistant | ✅ VERIFIED |
 | javari-autonomous-system | Self-Healing/Learning | ✅ VERIFIED |
 | javariverse-hub | Central Hub | PENDING |
-| crav-admin | Admin Dashboard | PENDING |
-| crav-ops-center | Operations | PENDING |
+| javari-admin | Admin Dashboard | PENDING |
+| javari-ops-center | Operations | PENDING |
 | strategic-command | Command Center | PENDING |
 
 ### Social Impact Modules
@@ -95,36 +95,36 @@ Auditor: Claude (Automated)
 | Project | Status |
 |---------|--------|
 | cr-realtor-platform | PENDING |
-| crav-activity-log | PENDING |
-| crav-admin | PENDING |
-| crav-analytics-dashboard | PENDING |
-| crav-auth | PENDING |
-| crav-builder | PENDING |
-| crav-competitive-intelligence | PENDING |
-| crav-components | PENDING |
-| crav-dashboard | PENDING |
-| crav-game-studio | PENDING |
-| crav-legalease | PENDING |
-| crav-logo-studio | PENDING |
-| crav-market-forge | PENDING |
-| crav-marketing-tools | PENDING |
-| crav-model-arena | PENDING |
-| crav-movie-audio | PENDING |
-| crav-music-builder | PENDING |
-| crav-news | PENDING |
-| crav-news-compare | PENDING |
-| crav-ops-center | PENDING |
-| crav-partner-portal | PENDING |
-| crav-pdf-builder | PENDING |
-| crav-property-hub | PENDING |
-| crav-property-management | PENDING |
-| crav-scrapbook | PENDING |
-| crav-site-builder | PENDING |
-| crav-social-graphics | PENDING |
-| crav-travel | PENDING |
-| crav-verifyforge | PENDING |
-| crav-webhooks | PENDING |
-| cravbarrels | PENDING |
+| javari-activity-log | PENDING |
+| javari-admin | PENDING |
+| javari-analytics-dashboard | PENDING |
+| javari-auth | PENDING |
+| javari-builder | PENDING |
+| javari-competitive-intelligence | PENDING |
+| javari-components | PENDING |
+| javari-dashboard | PENDING |
+| javari-game-studio | PENDING |
+| javari-legalease | PENDING |
+| javari-logo-studio | PENDING |
+| javari-market-forge | PENDING |
+| javari-marketing-tools | PENDING |
+| javari-model-arena | PENDING |
+| javari-movie-audio | PENDING |
+| javari-music-builder | PENDING |
+| javari-news | PENDING |
+| javari-news-compare | PENDING |
+| javari-ops-center | PENDING |
+| javari-partner-portal | PENDING |
+| javari-pdf-builder | PENDING |
+| javari-property-hub | PENDING |
+| javari-property-management | PENDING |
+| javari-scrapbook | PENDING |
+| javari-site-builder | PENDING |
+| javari-social-graphics | PENDING |
+| javari-travel | PENDING |
+| javari-verifyforge | PENDING |
+| javari-webhooks | PENDING |
+| javarispirits | PENDING |
 | crochet-platform | PENDING |
 | javari-ai | PENDING |
 | javari-animal-rescue | PENDING |

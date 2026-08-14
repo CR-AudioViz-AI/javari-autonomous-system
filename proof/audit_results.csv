@@ -1,3 +1,5 @@
+# HISTORICAL RECORD — the crav-* names below were accurate on the date of
+# this scan. Do not rewrite a dated record to match today.
 PROJECT,DOMAIN,HOME,PRICING,STATUS
 cr-realtor-platform,realtor.craudiovizai.com,200,200,PASS
 crav-property-hub,crav-property-hub.vercel.app,503,404,FAIL

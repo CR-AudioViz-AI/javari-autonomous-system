@@ -35,7 +35,7 @@ Auditor: Claude (Automated)
 | javari-comic-crypt | 200 | 404 | Add /pricing page |
 | javari-vinyl-vault | 200 | 404 | Add /pricing page |
 | javari-watch-works | 200 | 404 | Add /pricing page |
-| crav-travel | 200 | 404 | Add /pricing page |
+| javari-travel | 200 | 404 | Add /pricing page |
 | javari-orlando | 200 | 404 | Add /pricing page |
 | strategic-command | 200 | 404 | Add /pricing page |
 | javari-business-formation | 200 | 404 | Add /pricing page |
@@ -54,8 +54,8 @@ Auditor: Claude (Automated)
 
 | App | Status | Action Required |
 |-----|--------|-----------------|
-| crav-admin | 401 | Expected (admin only) |
-| crav-ops-center | 401 | Expected (ops only) |
+| javari-admin | 401 | Expected (admin only) |
+| javari-ops-center | 401 | Expected (ops only) |
 
 ---
 
