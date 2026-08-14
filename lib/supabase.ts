@@ -29,8 +29,13 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   );
 }
 
+// TypeScript does not carry a module-level narrowing into a function body,
+// so bind the checked values once and use these everywhere below.
+const URL_: string = SUPABASE_URL;
+const ANON_: string = SUPABASE_ANON_KEY;
+
 // Standard client for general use
-export const supabase: SupabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabase: SupabaseClient = createClient(URL_, ANON_);
 
 // Browser client for auth (SSR-safe singleton pattern)
 let browserClient: SupabaseClient | null = null;
@@ -38,12 +43,12 @@ let browserClient: SupabaseClient | null = null;
 export function createSupabaseBrowserClient(): SupabaseClient {
   if (typeof window === 'undefined') {
     // Server-side: return new client each time
-    return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    return createClient(URL_, ANON_);
   }
   
   // Client-side: return singleton
   if (!browserClient) {
-    browserClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    browserClient = createClient(URL_, ANON_, {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
@@ -59,7 +64,7 @@ export function createSupabaseServerClient(): SupabaseClient {
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!serviceKey) {
     console.warn('SUPABASE_SERVICE_ROLE_KEY not set, using anon key');
-    return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    return createClient(URL_, ANON_);
   }
   return createClient(SUPABASE_URL, serviceKey);
 }
