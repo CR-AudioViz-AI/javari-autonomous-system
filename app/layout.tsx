@@ -10,8 +10,6 @@ export const metadata: Metadata = {
     icon: [{ url: '/favicon.png', sizes: '32x32' }, { url: '/icon-512.png', sizes: '512x512' }],
     apple: '/apple-touch-icon.png',
   },
-  openGraph: { images: [{ url: '/og-image.png', width: 1200, height: 630 }] },
-  twitter: { card: 'summary_large_image', images: ['/og-image.png'] },
   // 2026-08-16: no metadataBase meant relative og:image paths resolved against
   // the preview hostname, and no canonical meant a trailing slash, a query
   // string and a preview host all competed for the same content.
@@ -19,7 +17,15 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
   title: 'Javari Autonomous',
   description: 'AI autonomous system management and workflow orchestration.',
-  openGraph: { title: 'Javari Autonomous', description: 'AI autonomous system management and workflow orchestration.', type: 'website' },
+  // 2026-08-16: merged rather than added — a second openGraph key is a
+  // duplicate object property and fails the TypeScript build.
+  openGraph: {
+    title: 'Javari Autonomous',
+    description: 'AI autonomous system management and workflow orchestration.',
+    type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+  },
+  twitter: { card: 'summary_large_image', images: ['/og-image.png'] },
 }
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
