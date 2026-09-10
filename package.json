@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "prebuild": "node scripts/audit-route-auth.mjs"
+    "prebuild": "node scripts/check-sdk-install.mjs && node scripts/audit-route-auth.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
@@ -18,7 +18,7 @@
     "react-dom": "^18.3.1",
     "cheerio": "^1.0.0",
     "openai": "^4.52.0",
-    "@craudioviz/platform-sdk": "git+https://github.com/CR-AudioViz-AI/platform-sdk.git"
+    "@craudioviz/platform-sdk": "git+https://github.com/CR-AudioViz-AI/platform-sdk.git#31a7f6ddb0e3f79f7dbc5d16c83273221f872647"
   },
   "devDependencies": {
     "@types/node": "^20.14.10",

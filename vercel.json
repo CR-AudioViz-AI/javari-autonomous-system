@@ -2,7 +2,7 @@
   "version": 2,
   "name": "javari-autonomous-system",
   "framework": "nextjs",
-  "buildCommand": "npm run build",
+  "buildCommand": "node scripts/check-sdk-install.mjs && npm run build",
   "crons": [
     {
       "path": "/api/scrape/devdocs",
